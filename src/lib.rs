@@ -14,6 +14,7 @@
 //! }
 //! ```
 
+use std::fmt::Display;
 #[cfg(feature = "color")] use std::io::Write;
 
 #[macro_export]
@@ -75,4 +76,15 @@ macro_rules! error {
       $crate::fatal!($($arg)*);
     }
   };
+}
+
+/// Unwraps a result or reports its error and exits.
+///
+/// The error is reported with [`error!`](error).
+///
+/// # User Experience
+/// Be mindful to not be too lazy because error values usually don't have the context to report even remotely acceptable messages.
+/// If context wasn't provided or isn't otherwise obvious, you should probably use [`error!`](error).
+pub fn unwrap<T,E: Display>(result: Result<T,E>) -> T {
+  result.unwrap_or_else(|e| error!("{}", e))
 }
