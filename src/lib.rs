@@ -85,9 +85,24 @@ macro_rules! error {
 ///
 /// The error is reported with [`error!`](error).
 ///
+/// See [`UnwrapExt`](UnwrapExt) for an extension trait version.
+///
 /// # User Experience
 /// Be mindful to not be too lazy because error values usually don't have the context to report even remotely acceptable messages.
 /// If context wasn't provided or isn't otherwise obvious, you should probably use [`error!`](error).
 pub fn unwrap<T,E: Display>(result: Result<T,E>) -> T {
   result.unwrap_or_else(|e| error!("{}", e))
+}
+
+/// An extension trait for [`unwrap`](unwrap).
+pub trait UnwrapExt {
+  type T;
+
+  /// An extension synonym for [`unwrap`](unwrap).
+  fn unwrap_fatal(self) -> Self::T;
+}
+
+impl<T,E: Display> UnwrapExt for Result<T,E> {
+  type T = T;
+  fn unwrap_fatal(self) -> Self::T { unwrap(self) }
 }
