@@ -1,5 +1,8 @@
 //! Utilities for reporting fatal errors and exiting with an error code.
 //!
+//! The behavior in this crate is different than the one in [`panic!`](::std::panic)-based exits,
+//! in that the ones here are suited for display to end-users, i.e. no "thread `main` panicked at", no backtrace mentions, etc.
+//!
 //! # Usage
 //! - Use [`error!`](error) to report context + error.
 //! - Use [`unwrap`](unwrap) to report [`Result`](Result) error when context is provided/obvious.
