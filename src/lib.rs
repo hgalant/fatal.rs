@@ -15,7 +15,6 @@
 //! ```
 
 use std::fmt::Display;
-#[cfg(feature = "color")] use std::io::Write;
 
 #[macro_export]
 /// Prints to standard-error and exits with an error-code. Returns [`!`](https://doc.rust-lang.org/std/primitive.never.html).
@@ -55,6 +54,7 @@ pub fn internal_write_error_prefix() {
 /// Returns whether the function printed, regardless if it succeeded or not.
 /// In other words, if false, we should retry but fallback to normal printing.
 fn internal_write_red_error_prefix() -> bool {
+  use std::io::Write;
   let mut stderr = termcolor::StandardStream::stderr(termcolor::ColorChoice::Auto);
   if termcolor::WriteColor::set_color(&mut stderr, termcolor::ColorSpec::new().set_fg(Some(termcolor::Color::Red))).is_err() { return false }
   let did_write = write!(&mut stderr, get_error_prefix!()).is_ok();
