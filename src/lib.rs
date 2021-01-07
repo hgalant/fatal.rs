@@ -74,6 +74,16 @@ fn internal_write_red_error_prefix() -> bool {
 ///
 /// Equivalent to [`fatal!`](fatal), but prefixes the message (when present) with “Error: ”.
 /// If the `color` flag is set, will attempt to color the prefix in red.
+///
+/// # User Experience
+/// The message you write in the arguments is in the middle of a sentence, so you may or may not want to capitalize the beginning (unless it's a proper-noun, of course).
+/// Grammatically, either way is valid so it's just a matter of style.
+///
+/// E.g.
+/// ```ignore
+/// error!("bad input") // "Error: bad input"
+/// error!("Bad input") // "Error: Bad input"
+/// ```
 macro_rules! error {
   () => { $crate::fatal!() };
   ($($arg:tt)*) => {
