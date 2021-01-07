@@ -56,7 +56,7 @@ pub fn internal_write_error_prefix() {
 fn internal_write_red_error_prefix() -> bool {
   let mut stderr = termcolor::StandardStream::stderr(termcolor::ColorChoice::Auto);
   if termcolor::WriteColor::set_color(&mut stderr, termcolor::ColorSpec::new().set_fg(Some(termcolor::Color::Red))).is_err() { return false }
-  let did_write = write!(&mut stderr, get_error_prefix!()).is_err();
+  let did_write = write!(&mut stderr, get_error_prefix!()).is_ok();
   termcolor::WriteColor::reset(&mut stderr)
     .ok(); // ignore any potential error, we passed the point of no return.
   did_write
