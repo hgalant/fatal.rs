@@ -1,3 +1,19 @@
+//! Macros for reporting fatal errors and exiting with an error code.
+//!
+//! All macros:
+//! - Are equivalent to [`process::exit`](::std::process::exit) when no arguments are given.
+//! - Return [`!`](https://doc.rust-lang.org/std/primitive.never.html).
+//!
+//! # (Pseudo-)Example:
+//! ```ignore
+//! fn execute() -> Result<A, ExecutionError> { /* ... */ }
+//!
+//! fn main() {
+//!     let a: A = execute().wrap_or_else(|e| fatal::error!("execution failed ({})", e));
+//!     /// ...
+//! }
+//! ```
+
 #[cfg(feature = "color")] use std::io::Write;
 
 #[macro_export]
