@@ -1,16 +1,19 @@
-//! Macros for reporting fatal errors and exiting with an error code.
+//! Utilities for reporting fatal errors and exiting with an error code.
 //!
-//! All macros:
-//! - Are equivalent to [`process::exit`](::std::process::exit) when no arguments are given.
-//! - Return [`!`](https://doc.rust-lang.org/std/primitive.never.html).
+//! # Usage
+//! - Use [`error!`](error) to report context + error.
+//! - Use [`unwrap`](unwrap) to report [`Result`](Result) error when context is provided/obvious.
+//! - Use [`fatal!`](fatal) when [`error!`](error)'s prefix is unwelcome.
 //!
 //! # (Pseudo-)Example:
 //! ```ignore
-//! fn execute() -> Result<A, ExecutionError> { /* ... */ }
-//!
 //! fn main() {
-//!     let a: A = execute().wrap_or_else(|e| fatal::error!("execution failed ({})", e));
-//!     /// ...
+//!     let constr: String = std::env::var("DB_CONNECTION_STRING").unwrap_or_else(|e|
+//!         fatal::error!("Failed to read the 'DB_CONNECTION_STRING' environment variable ({})", e)
+//!     );
+//!     println!("Connecting to database..");
+//!     let db: Database = fatal::unwrap(Database::connect(&constr));
+//!     println!("Total users: {}", db.query_total_users());
 //! }
 //! ```
 
