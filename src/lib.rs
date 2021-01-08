@@ -4,8 +4,13 @@
 //! in that the ones here are suited for display to end-users, i.e. no "thread `main` panicked at", no backtrace mentions, etc.
 //!
 //! # Usage
+//! For unwrapping [`Result`](Result)s:
+//! - Use [`unwrap_message`](unwrap_message) to provide context.
+//! - Use [`unwrap_format`](unwrap_format) to have more control over the message's format.
+//! - Use [`unwrap`](unwrap) / [`unwrap_fatal`](UnwrapExt::unwrap_fatal) to report the error when context is provided/obvious.
+//!
+//! For aborting:
 //! - Use [`error!`](error) to report context + error.
-//! - Use [`unwrap`](unwrap) to report [`Result`](Result) error when context is provided/obvious.
 //! - Use [`fatal!`](fatal) when [`error!`](error)'s prefix is unwelcome.
 //!
 //! # (Pseudo-)Example:
