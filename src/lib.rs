@@ -5,8 +5,8 @@
 //!
 //! # Usage
 //! For unwrapping [`Result`](Result)s:
-//! - Use [`unwrap_message`](unwrap_message) to provide context.
-//! - Use [`unwrap_format`](unwrap_format) to have more control over the message's format.
+//! - Use [`unwrap_message!`](unwrap_message) to provide context.
+//! - Use [`unwrap_format!`](unwrap_format) to have more control over the message's format.
 //! - Use [`unwrap`](unwrap) / [`unwrap_fatal`](UnwrapExt::unwrap_fatal) to report the error when context is provided/obvious.
 //!
 //! For aborting:
