@@ -2,8 +2,10 @@
 name = "fatal"
 version = "0.1.0"
 authors = ["Hadar Galant <19251133+hgalant@users.noreply.github.com>"]
-edition = "2018"
+description = "End-user friendly panics."
 repository = "https://github.com/hgalant/fatal.rs"
+license = "MIT OR Apache-2.0"
+edition = "2018"
 
 [features]
 default = ["color"]
