@@ -108,9 +108,18 @@ macro_rules! error {
 ///
 /// # User Experience
 /// Be mindful to not be too lazy because error values usually don't have the context to report even remotely acceptable messages.
-/// If context wasn't provided or isn't otherwise obvious, you should probably use [`error!`](error).
+/// If context wasn't provided or isn't otherwise obvious, you should probably use [`expect!`](expect).
 pub fn unwrap<T,E: Display>(result: Result<T,E>) -> T {
   result.unwrap_or_else(|e| error!("{}", e))
+}
+
+/// Unwraps a result or reports the given message with the error and exits.
+///
+/// The error is reported with [`error!`](error).
+///
+/// See [`UnwrapExt`](UnwrapExt) for an extension trait version.
+pub fn expect<T,E: Display>(result: Result<T,E>, message: impl Display) -> T {
+  result.unwrap_or_else(|e| error!("{} ({})", message, e))
 }
 
 /// An extension trait for [`unwrap`](unwrap).
@@ -119,11 +128,15 @@ pub trait UnwrapExt {
 
   /// An extension synonym for [`unwrap`](unwrap).
   fn unwrap_fatal(self) -> Self::T;
+
+  /// An extension synonym for [`expect`](expect).
+  fn expect_fatal(self, message: impl Display) -> Self::T;
 }
 
 impl<T,E: Display> UnwrapExt for Result<T,E> {
   type T = T;
   fn unwrap_fatal(self) -> Self::T { unwrap(self) }
+  fn expect_fatal(self, message: impl Display) -> Self::T { expect(self, message) }
 }
 
 #[macro_export]
