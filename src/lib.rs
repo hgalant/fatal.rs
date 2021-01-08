@@ -136,7 +136,7 @@ impl<T,E: Display> UnwrapExt for Result<T,E> {
 /// The rest of the arguments are as in [format!](::std::format).
 macro_rules! unwrap_format {
   ($result:expr, $msg:tt) => {
-    $result.unwrap_or_else(|e| $crate::error!($msg))
+    $result.unwrap_or_else(|e| $crate::error!($msg), error=e)
   };
   ($result:expr, $fmt:tt, $($param:tt)*) => {
     $result.unwrap_or_else(|e| $crate::error!($fmt, $($param)*, error=e))
