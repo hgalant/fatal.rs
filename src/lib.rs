@@ -155,3 +155,30 @@ macro_rules! unwrap_message {
     $result.unwrap_or_else(|e| $crate::error!(::std::concat!($msg, " ({error})"), $($param)*, error=e))
   };
 }
+
+#[cfg(test)]
+mod test {
+  use super::*;
+
+  #[allow(unreachable_code, dead_code)]
+  // Just tests that expansions produce code that can even compile.
+  fn test_expansions_compiles() {
+    let r = Ok::<(),bool>(());
+    let r = &r;
+
+    unwrap_format!(r, "Error {error}");
+    unwrap_format!(r, "Err{} {error}", "or");
+
+    unwrap_message!(r, "Error");
+    unwrap_message!(r, "Error {error}");
+    unwrap_message!(r, "Err{} {error}", "or");
+
+    error!();
+    error!("Error");
+    error!("Err{}", "or");
+
+    fatal!();
+    fatal!("Error");
+    fatal!("Err{}", "or");
+  }
+}
