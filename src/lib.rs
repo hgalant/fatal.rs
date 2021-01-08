@@ -16,14 +16,19 @@
 //!
 //! # (Pseudo-)Example:
 //! ```ignore
+//! use fatal::UnwrapExt;
+//!
 //! const DB_CONSTR_VAR: &str = "DB_CONNECTION_STRING";
 //!
 //! fn main() {
+//!     println!("Connecting..");
 //!     let constr: String = fatal::unwrap_message!(std::env::var(DB_CONSTR_VAR), "failed to read the `{}` environment variable", DB_CONSTR_VAR);
 //!     // when doesn't exist, will print: "Error: failed to read the `DB_CONNECTION_STRING` environment variable (environment variable not found)"
-//!     println!("Connecting to database..");
-//!     let db: Database = fatal::unwrap(Database::connect(&constr));
-//!     println!("Total users: {}", db.query_total_users());
+//!     let db: Database = Database::connect(&constr).expect_fatal("failed to connect to database");
+//!     // would also include the actual error as above.
+//!
+//!     println!("Querying total users..");
+//!     println!("Total users: {}", db.query_total_users().unwrap_fatal());
 //! }
 //! ```
 
