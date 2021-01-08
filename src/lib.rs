@@ -134,6 +134,8 @@ impl<T,E: Display> UnwrapExt for Result<T,E> {
 ///
 /// The first argument should be a [Result](Result) such that its error implements either [`Debug`](std::fmt::Debug) or [`Display`](std::fmt::Display).
 /// The rest of the arguments are as in [format!](::std::format).
+///
+/// The `{error}` named parameter must be used!
 macro_rules! unwrap_format {
   ($result:expr, $msg:tt) => {
     $result.unwrap_or_else(|e| $crate::error!($msg, error=e))
