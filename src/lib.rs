@@ -119,3 +119,33 @@ impl<T,E: Display> UnwrapExt for Result<T,E> {
   type T = T;
   fn unwrap_fatal(self) -> Self::T { unwrap(self) }
 }
+
+#[macro_export]
+/// Unwraps the result or formats an error message and exits.
+///
+/// This is like [`unwrap`](unwrap) but enables formatting. The error message is in the [named parameter](https://doc.rust-lang.org/std/fmt/index.html#named-parameters)
+/// `error` (i.e. `{error}` will show it).
+///
+/// The first argument should be a [Result](Result) such that its error implements either [`Debug`](std::fmt::Debug) or [`Display`](std::fmt::Display).
+/// The rest of the arguments are as in [format!](::std::format).
+macro_rules! unwrap_format {
+  ($result:expr, $msg:tt) => {
+    $result.unwrap_or_else(|e| $crate::error!($msg))
+  };
+  ($result:expr, $fmt:tt, $($param:tt)*) => {
+    $result.unwrap_or_else(|e| $crate::error!($fmt, $($param)*, error=e))
+  };
+}
+
+/// Unwraps the result or reports the error with the error description and exits.
+///
+/// This is like [`unwrap_format!`](unwrap_format) but always appends the error message at the end.
+#[macro_export]
+macro_rules! unwrap_message {
+  ($result:expr, $msg:tt) => {
+    $result.unwrap_or_else(|e| $crate::error!(::std::concat!($msg, " ({error})"), error=e))
+  };
+  ($result:expr, $msg:tt, $($param:tt)*) => {
+    $result.unwrap_or_else(|e| $crate::error!(::std::concat!($msg, " ({error})"), $($param)*, error=e))
+  };
+}
