@@ -1,6 +1,6 @@
 [package]
 name = "fatal"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Hadar Galant <19251133+hgalant@users.noreply.github.com>"]
 description = "End-user friendly panics."
 repository = "https://github.com/hgalant/fatal.rs"
